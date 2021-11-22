@@ -33,12 +33,11 @@ void main(){
                 scanf("%d",&key);
                 pos = search(n,arr,key);
                 if (pos>=0) printf("Key Found at index - %d\n",pos);
-                else printf("Key was not found\n");
+                else printf("Key was not found :(\n");
                 break;
             }
             case 4: {
                 sort(n,arr);
-                printf("Array Sorting Successful\n");
                 display(n,arr);
                 break;
             }
@@ -47,14 +46,23 @@ void main(){
                 scanf("%d",&key);
                 printf("Enter index to insert>> ");
                 scanf("%d",&pos);
+                if ((pos<0)|(pos>n)) {
+                    printf("Index out of range :(\n");
+                    break;
+                }
                 insert(&n,arr,pos,key); 
-                printf("Insertion Successfull\n");
+                printf("Insertion Successfull :)\n");
                 display(n,arr);
+                break;
             
             }
             case 6: {
                 printf("Enter index of element to delete>> ");
                 scanf("%d",&pos);
+                if ((pos<0)|(pos>n-1)) {
+                    printf("Index out of range :(\n");
+                    break;
+                }
                 deleteIndex(&n,arr,pos);
                 display(n,arr);
                 break;
@@ -105,16 +113,22 @@ int search(int n, int *arr, int key){
 }
 
 int sort(int n,int *arr){
-    int temp;
+    int temp,flag=0;
     for(int i=0;i<n;i++){
         for(int j=0;j<n-i-1;j++){
             if(*(arr+j)>*(arr+j+1)){
                 temp = *(arr+j);
                 *(arr+j) = *(arr+j+1);
                 *(arr+j+1) = temp;
+                flag = 1;
             }
         }
+        if (flag==0){
+            printf("Array is already Sorted\n");
+            return 0;
+        }
     }
+    printf("Array Sorting Successful :)\n");
 }
 
 void insert(int *n,int *arr,int pos,int key){
@@ -131,13 +145,13 @@ void deleteIndex(int *n,int *arr,int pos){
         *(arr+i) = *(arr+i+1);   
     }
     (*n)--;
-    printf("Deleted Successfully\n");
+    printf("Deleted Successfully :)\n");
 }
 
 void deleteValue(int *n,int *arr,int key){
     int pos = search(*n,arr,key);
     if (pos>=0) deleteIndex(n,arr,pos);
-    else printf("%d does not exist in array\n",key);
+    else printf("%d does not exist in array :(\n",key);
 }
 
 
