@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void read(int n,int *arr);
-void display(int n, int *arr);
-int search(int n, int *arr,int key);
-int sort(int n,int *arr);
-void insert(int *n,int *arr,int pos,int key);
-void deleteIndex(int *n,int *arr,int pos);
-void deleteValue(int *n,int *arr,int key);
+void read(int,int*);
+void display(int, int*);
+int search(int, int*,int);
+int sort(int,int*);
+void insert(int*,int*,int,int);
+void deleteIndex(int*,int*,int);
+void deleteValue(int*,int*,int);
 
 void main(){
     int i,n,choice,arr[25],key,pos;
