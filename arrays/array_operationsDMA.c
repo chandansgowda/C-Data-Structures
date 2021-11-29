@@ -24,7 +24,6 @@ void main(){
                 if ((arr = (int *)calloc(n,sizeof(int)))==NULL){
                 	printf("Memory Error :(");
                 }
-                printf("%p",arr);
                 read(n,arr);
                 break;
             }
