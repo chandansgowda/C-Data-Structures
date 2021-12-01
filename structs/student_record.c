@@ -81,7 +81,7 @@ int calcAvg(int m1,int m2,int m3){
 			arr[i+1]=temp;
 		}
 	}
-	return (arr[0]+arr[1])/2;	
+	return ((float)(arr[0]+arr[1])/2);	
 }
 
 
