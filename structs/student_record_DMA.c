@@ -70,7 +70,7 @@ void read(int n,STD *s){
 }
 void display(int n, STD *s){
 	printf("-------------------------------------------------------\n");
-    printf("ID\tNAME\tROLL_NO\tTEST-1\tTEST-2\tTEST-3\tAVG_MARKS\n");
+    printf("No.\tNAME\tROLL_NO\tTEST-1\tTEST-2\tTEST-3\tAVG_MARKS\n");
     for(int i=0;i<n;i++){
         printf("%d\t%s\t%d\t%d\t%d\t%d\t%.2f\n", i+1,((s+i)->name),((s+i)->roll_no),((s+i)->m1),((s+i)->m2),((s+i)->m3),((s+i)->avg_marks));
     }
@@ -93,7 +93,7 @@ void sort(int n,STD *s){
     STD temp;
     for(int i=0;i<n;i++){
         for (int j=0;j<n-1-i;j++){
-            if (((s+j)->avg_marks)>((s+j+1)->avg_marks)){
+            if (((s+j)->roll_no)>((s+j+1)->roll_no)){
                 temp = *(s+j);
                 *(s+j) = *(s+j+1);
                 *(s+j+1) = temp;
