@@ -11,6 +11,7 @@ typedef struct student {
 void read(int,STD *);
 void display(int, STD *);
 float calcAvg(int,int,int);
+void sort(int, STD*);
 
 void main(){
     int n,choice;
@@ -18,7 +19,7 @@ void main(){
     
     while(1){
         printf("----Student Records----\n");
-        printf("1.Read\n2.Display\n3.Exit\n");
+        printf("1.Read\n2.Display\n3.Sort\n4.Exit\n");
         printf("Select Option>> ");
         scanf("%d",&choice);
         switch(choice){
@@ -27,6 +28,7 @@ void main(){
                 scanf("%d",&n);
                 if ((s = (STD*)calloc(n,sizeof(STD)))==NULL){
                 	printf("Memory Error");
+                	break;
                 }
                 read(n,s);
                 break;
@@ -35,7 +37,10 @@ void main(){
                 display(n,s);
                 break;
             }
-                  
+            case 3: {
+                sort(n,s);
+                break;
+            }     
             default: exit(0);
         }
     
@@ -84,6 +89,19 @@ float calcAvg(int m1,int m2,int m3){
 	return ((float)(arr[0]+arr[1])/2);	
 }
 
+void sort(int n,STD *s){
+    STD temp;
+    for(int i=0;i<n;i++){
+        for (int j=0;j<n-1-i;j++){
+            if (((s+j)->avg_marks)>((s+j+1)->avg_marks)){
+                temp = *(s+j);
+                *(s+j) = *(s+j+1);
+                *(s+j+1) = temp;
+                
+            }
+        }
+    }
+}
 
 
 
