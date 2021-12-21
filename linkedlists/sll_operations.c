@@ -55,34 +55,26 @@ NODE insertAtEnd(NODE first){
 
 NODE insertAtPos(NODE first, int pos){
     if (first==NULL){
-        printf("List Empty :(\n");
+        printf("List Empty! Inserting at first.\n");
+        return createNode();
+    }
+    NODE prev,temp;
+    temp = first;
+    prev = first;
+    for(int i=0;(temp->link!=NULL)&&(i<pos-1);i++){
+        prev = temp;
+        temp = temp->link;
+    }
+    if ((temp==NULL)||(pos<1)){
+        printf("Invalid Position!\n");
         return first;
     }
-    if (pos==1){
-        first = insertAtFront(first);
+    else{
+        temp = createNode();
+        temp->link = prev->link;
+        prev->link = temp;
         return first;
     }
-    int i=0;
-    NODE temp = first;
-    while(temp->link!=NULL && i<pos-1){
-        temp=temp->link;
-        i++;
-    }
-    if (i==pos-1 && temp->link==NULL){
-        first = insertAtEnd(first);
-        return first;
-    }
-    else if (temp==NULL){
-        printf("List index out of range!");
-        return first;
-    }else{
-        NODE ptr = temp->link;
-        temp->link = createNode();
-        temp->link->link = ptr;
-        return first;
-    }
-    
-    
 }
 
 int search(NODE first,int key){
@@ -130,11 +122,15 @@ NODE deleteAtPos(NODE first, int pos){
         printf("List Empty :(\n");
         return first;
     }
-    int i=0;
+    int i=1;
     NODE temp=first;
-    while((i<pos-1) && (temp!=NULL)){
+    while((temp!=NULL)&&(i<pos-1)){
         temp = temp->link;
         i++;
+    }
+    if ((temp==NULL)||(pos<1)){
+       printf("Invalid Position\n");
+       return first; 
     }
     NODE ptr = temp->link;
     temp->link = temp->link->link;
@@ -251,7 +247,7 @@ void main(){
             }
             case 9: {
                 first = reverse(first);
-                display(second);
+                display(first);
                 break;
             }
             case 10: {
