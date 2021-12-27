@@ -2,143 +2,220 @@
 #include <stdlib.h>
 
 struct node {
-    int data;
-    struct node* link;
+	int data;
+	struct node* link;
 };
 
 typedef struct node* NODE;
+int count = 0;
 
 NODE createNode(){
-    NODE temp;
-    temp = (NODE)malloc(sizeof(struct node));
-    temp->link = temp;
-    printf("Enter Data >> ");
-    scanf("%d",&temp->data);
-    return temp;
+	NODE temp = (NODE)malloc(sizeof(struct node*));
+	count++;
+	temp->link = temp;
+	printf("Enter Data>> ");
+	scanf("%d",&temp->data);
+	return temp;
 }
 
 void display(NODE last){
-    if (last==NULL){
-        printf("List is Empty :(");
-        return;
-    }
-    if (last->link==last){
-        printf("%d ", last->data);
-        return;
-    }
-    NODE temp = last->link;
-    while(temp->link!=last){
-        printf("%d ", temp->data);
-        temp = temp->link;
-    }
+	if (last==NULL){
+		printf("Empty List\n");
+		return;
+	}
+	NODE temp = last->link;
+	int i;
+	for(i=0;i<count;i++){
+		printf("%d -> ",temp->data);
+		temp=temp->link;
+	}
+	printf("\nPress Any Number to Continue\n");  
+	scanf("%d",&i);
 }
 
-NODE insertAtFront(NODE last){
-    if (last==NULL){
-        last = createNode();
-        return last;
-    }
-    NODE temp = createNode();
-    temp->link = last;
-    last->link=temp;
-    return temp;
+NODE insAtFront(NODE last){
+	if (last==NULL) return createNode();
+	NODE temp = createNode();
+	temp->link = last->link;
+	last->link = temp;
+	return last;
 }
 
-NODE insertAtEnd(NODE last){
-    if (last==NULL){
-        last = createNode();
-        return last;
-    }
-    NODE newNode=createNode(), temp = last->link;
-    while(temp->link!=last){
-        temp = temp->link;
-    }
-    temp->link = newNode;
-    newNode->link = last;
-    return last;
+NODE insAtEnd(NODE last){
+	if (last==NULL) return createNode();
+	NODE temp = createNode();
+	temp->link = last->link;
+	last->link = temp;
+	return temp;
 }
 
-void main(){
-    int choice,key,pos;
+NODE delAtFront(NODE last){
+	if (last==NULL){
+		printf("List Empty\n");
+		return last;
+	}
+	NODE temp = last->link;
+	last->link = temp->link;
+	free(temp);
+	count--;
+	return last;
+}
+
+NODE delAtEnd(NODE last){
+	if (last==NULL){
+			printf("List Empty\n");
+			return last;
+		}
+		NODE temp = last->link;
+		int i = 0;
+		for(i=0;i<count-1;i++){
+			temp=temp->link;
+		}
+		temp->link = last->link;
+		free(last);
+		count--;
+		return temp;
+}
+
+NODE insAtPos(NODE last, int pos){
+	if ((pos<1)||(pos>count+1)){
+		printf("Invalid Position\n");
+		return last;
+	}
+	if (pos==1) return insAtFront(last);
+	if (last==NULL) return createNode();
+	int i; NODE temp = last->link;
+	for(i = 1;i<pos-1;i++){
+		temp = temp->link;
+	}
+	NODE newNode = createNode();
+	newNode->link = temp->link;
+	temp->link = newNode;
+	return last;
+}
+
+NODE delAtPos(NODE last, int pos){
+	if ((pos<1)||(pos>count)){
+		printf("Invalid Position\n");
+		return last;
+	}
+	if (pos==1) return insAtFront(last);
+	int i; NODE temp = last->link;
+	for(i = 1;i<pos-1;i++){
+		temp = temp->link;
+	}
+	NODE ptr = temp->link;
+	temp->link = temp->link->link;
+	free(ptr);
+	count--;
+	return last;
+}
+
+int search(NODE last, int key){
+	if (last==NULL){
+		printf("List Empty\n");
+		return 0;
+	}
+	int i=1; NODE temp = last->link;
+	do{
+		if (temp->data==key){
+			return i;
+		}
+		temp = temp->link;
+		i++;
+		
+	}while(i<=count);
+	return 0;
+}
+
+ NODE reverse (NODE last )
+ { int i=0;
+  NODE temp=last->link,first,new,cur=NULL;
+  if(last==NULL)
+  {
+   printf("empty link list ");
+   return NULL;
+  }
+  if(count==1)
+  {
+   printf("only one element ");
+   return last;
+  }
+  else
+  {
+   for(i=0;i<count;i++)
+   { new=temp;
+    temp=temp->link;
+    new->link=cur;
+    cur=new;
+    }
+   first=cur;
+  while(cur->link!=NULL)
+  {
+  cur=cur->link;
+  }
+  cur->link=first;
+  return cur;
+ }
+
+void main()
+{
+    int choice, pos, key;
     NODE last;
-    
-    while(1){
-        printf("\n----Singly Linked List Operations----\n");
-        printf("1.Display\n2.Insert at Front\n3.Insert at Position\n4.Insert at End\n5.Search\n6.Delete at Front\n7.Delete at Position\n8.Delete At End\n9.Reverse\n10.Ordered Input\n11.Copylist\n");
-        printf("Select Option>> ");
+
+    while (1)
+    {	
+    	puts(
+"\n░█████╗░░██████╗██╗░░░░░██╗░░░░░  ░█████╗░██████╗░░██████╗\n"
+"██╔══██╗██╔════╝██║░░░░░██║░░░░░  ██╔══██╗██╔══██╗██╔════╝\n"
+"██║░░╚═╝╚█████╗░██║░░░░░██║░░░░░  ██║░░██║██████╔╝╚█████╗░\n"
+"██║░░██╗░╚═══██╗██║░░░░░██║░░░░░  ██║░░██║██╔═══╝░░╚═══██╗\n"
+"╚█████╔╝██████╔╝███████╗███████╗  ╚█████╔╝██║░░░░░██████╔╝\n"
+"░╚════╝░╚═════╝░╚══════╝╚══════╝  ░╚════╝░╚═╝░░░░░╚═════╝░ ");
+        printf("\n   1.Display\n   2.Insert at Front\n   3.Insert at position\n   4.Insert at End\n   5.Delete at Front\n   6.Delete at Position\n   7.Delete last element\n   8.Search Value\n   9.Reverse\n   99.Exit\n   Select Option>> ");
         scanf("%d",&choice);
-        switch(choice){
-            case 1: {
-                display(last);
-                break;
-            }
-            case 2: {
-                last = insertAtFront(last);
-                break;
-            }
-            /*case 3: {
-                printf("Enter Position to insert>> ");
-                scanf("%d",&pos);
-                last = insertAtPos(last,pos);
-                break;
-            }*/
-            case 4: {
-                last = insertAtEnd(last);
-                break;
-            }
-            /*case 5: {
-                printf("Enter key to search>> ");
-                scanf("%d",&key);
-                pos = search(first,key);
-                if (pos>=0) printf("Key Found at position - %d\n",pos);
-                else printf("Key was not found :(\n");
-                break;
-            }
-            case 6: {
-                first = deleteAtFront(first);
-                break;
-            }
-            case 7: {
-                printf("Enter Position to Delete>> ");
-                scanf("%d",&pos);
-                first = deleteAtPos(first,pos);
-                break;
-            }
-            case 8: {
-                first = deleteAtEnd(first);
-                break;
-            }
-            case 9: {
-                first = reverse(first);
-                display(second);
-                break;
-            }
-            case 10: {
-                first = orderedInput(first);
-                break;
-            }
-            case 11: {
-                NODE second;
-                second = copyList(first);
-                display(second);
-                break;
-            }
-            default: exit(0);*/
+        switch (choice)
+        {
+        case 1:
+            	display(last);
+            	break;
+        case 2:
+        		last = insAtFront(last);
+            	break;
+        case 3:
+        		printf("Enter Position to Insert>> ");
+        		scanf("%d",&pos);
+        		last = insAtPos(last,pos);
+            	break;
+        case 4:
+        		last = insAtEnd(last);
+            	break;
+        case 5:
+        		last = delAtFront(last);
+            	break;
+        case 6:
+        		printf("Enter Position to Delete>> ");
+        		scanf("%d",&pos);
+        		last = delAtPos(last,pos);
+            	break;    
+        case 7:
+        		last = delAtEnd(last);
+            	break;
+        case 8:
+        		printf("Enter Value to Search>> ");
+        		scanf("%d",&key);
+        		pos = search(last,key);
+        		if (pos>0) printf("Key Found at Position - %d\n",pos);
+        		else printf("Key not Found!\n");
+        		break;
+        case 9:
+        		last = reverse(last);
+        		display(last);
+        		break;
+        case 99:
+            exit(0);
+        default:
+            printf("%d is invalid option", choice);
         }
-    
     }
-    
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
