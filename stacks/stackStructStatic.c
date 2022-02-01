@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#define CAPACITY 5
 
 struct stack {
-    int *data;
+    int data[CAPACITY];
     int tos;
 };
 
@@ -12,12 +13,16 @@ typedef struct stack * STACK;
 void print(STACK x){
     printf("S>> \n");
     for(int i = x->tos; i>=0; i--)
-        printf("%d\n", *(x->data+i));
+        printf("%d\n", x->data[i]);
 }
 
 STACK push(STACK x, int item){
-    x->data = (int*)realloc(x->data,(++x->tos+1)*sizeof(int));
-    *(x->data+x->tos) = item;
+    if(x->tos == CAPACITY -1 ){
+        printf("S FULL (OVERFLOW)\n");
+        return x;
+    }
+
+    x->data[++x->tos] = item;
     return x;
 }
 
@@ -27,7 +32,7 @@ STACK peek(STACK x){
         return x;
     }
 
-    printf("TOP OF S >> %d\n", *(x->data+x->tos));
+    printf("TOP OF S >> %d\n", x->data[x->tos]);
     return x;
 }
 
@@ -36,13 +41,14 @@ STACK pop(STACK x){
         printf("S EMPTY (UNDERFLOW)\n");
         return x;
     }
-    x->data = (int*)realloc(x->data,--x->tos+1*sizeof(int));
-    printf("POPPED ELEMENT >> %d\n", *(x->data+x->tos));
+
+    printf("POPPED ELEMENT >> %d\n", x->data[x->tos--]);
     return x;
 }
 
 void main(){
-    STACK s = (STACK)malloc(sizeof(struct stack));
+    struct stack S;
+    STACK s = &S;
     s->tos = -1;
     int item, choice;
 
