@@ -154,32 +154,48 @@ NODE reverse(NODE first){
     return cur;
 }
 
+// NODE orderedInput(NODE first){
+//     if (first==NULL){
+//         first = createNode();
+//         return first;
+//     }
+//     NODE newNode = createNode();
+//     if ((first->link==NULL)||(first->data>newNode->data)){
+//         if (newNode->data<first->data){
+//             newNode -> link = first;
+//             return newNode;
+//         }else{
+//             first->link=newNode;
+//             return first;
+//         }
+//     }
+//     NODE prev,temp = first;
+//     while((temp!=NULL)&&((newNode->data)>(temp->data))){
+//             prev = temp;
+//             temp = temp->link;
+//     }
+//     if (temp==NULL){
+//         prev->link=newNode;
+//         return first;
+//     }
+//     newNode->link=prev->link;
+//     prev->link=newNode;
+//     return first;
+// }
+
 NODE orderedInput(NODE first){
-    if (first==NULL){
-        first = createNode();
-        return first;
-    }
     NODE newNode = createNode();
-    if ((first->link==NULL)||(first->data>newNode->data)){
-        if (newNode->data<first->data){
-            newNode -> link = first;
-            return newNode;
-        }else{
-            first->link=newNode;
-            return first;
-        }
+    if (first==NULL||first->data>newNode->data){
+        newNode->link = first;
+        return newNode;
     }
-    NODE prev,temp = first;
-    while((temp!=NULL)&&((newNode->data)>(temp->data))){
-            prev = temp;
-            temp = temp->link;
+    NODE temp=first, prev=first;
+    while(temp!=NULL&&(newNode->data)>(temp->data)){
+        prev = temp;
+        temp = temp->link;
     }
-    if (temp==NULL){
-        prev->link=newNode;
-        return first;
-    }
-    newNode->link=prev->link;
-    prev->link=newNode;
+    prev->link = newNode;
+    newNode->link = temp;
     return first;
 }
 
