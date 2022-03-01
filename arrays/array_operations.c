@@ -120,6 +120,7 @@ int sort(int n,int *arr){
                 temp = *(arr+j);
                 *(arr+j) = *(arr+j+1);
                 *(arr+j+1) = temp;
+                //arr[j] = arr[j] + arr[j+1] - (arr[j+1]=arr[j]); can also be used for swapping
                 flag = 1;
             }
         }
