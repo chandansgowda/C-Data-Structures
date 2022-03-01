@@ -1,91 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct time {
-    int hh,mm,ss;
-} TIME;
+struct Time {
+    int h,m,s;
+};
 
-void read(TIME*);
-void display(TIME*);
-void update(TIME*);
-void add(TIME*);
+typedef struct Time* TIME;
 
-void main(){
-    int choice;
-    TIME time_structure;
-    TIME* t = &time_structure;
-    
-    while(1){
-        printf("1.Read\n2.Display\n3.Update\n4.Add\n5.Exit\n");
-        printf("Select Option >> ");
-        scanf("%d",&choice);
-        switch(choice){
-            case 1 : {
-                read(t);
-                break;
-            }
-            case 2 : {
-                display(t);
-                break;
-            }
-            case 3: {
-                update(t);
-                break;
-            }
-            case 4: {
-                add(t);
-                break;
-            }
-            default: {
-                exit(0);
-                break;
+void read(TIME t){
+    printf("Enter time (HH:MM:SS) >> ");
+    scanf("%d:%d:%d",&t->h,&t->m,&t->s);
+}
+
+void display(struct Time t){
+    printf("%.2d:%.2d:%.2d",t.h,t.m,t.s);
+}
+
+void update(TIME t){
+    t->s++;
+    if(t->s>=60){
+        t->m++;
+        t->s=0;
+        if(t->m>=60){
+        t->h++;
+        t->m=0;
+            if(t->h>=24){
+            t->h=0;
             }
         }
     }
 }
 
-void read(TIME* t){
-    printf("Enter Time (HH:MM:SS) >>  ");
-    scanf("%d:%d:%d",&t->hh,&t->mm,&t->ss);  
+void add(){
+    int temp;
+    struct Time t1,t2;
+    TIME tp1, tp2;
+    tp1 = &t1;
+    tp2 = &t2;
+    printf("\nTime 1\n");
+    read(tp1);
+    printf("\nTime 2\n");
+    read(tp2);
+    t1.s += t2.s;
+    t1.m += t2.m;
+    t1.h += t2.h;
+    if (t1.s>59){
+        temp = t1.s/60;
+        t1.s %= 60;
+        t1.m += temp;
+        if (t1.m>59){
+            temp = t1.m/60;
+            t1.m %= 60;
+            t1.h += temp;
+            if (t1.h>23){
+                t1.h %= 24;
+            }
+        }
+    }
+    display(t1);
+    
 }
 
-void display(TIME* t){
-    printf("Time >> %.2d:%.2d:%.2d\n",t->hh,t->mm,t->ss);
-}
 
-void update(TIME* t){
-    t->ss++;
-    if(t->ss>=60){
-        t->ss-=60;
-        t->mm++;
+void main(){
+    struct Time time;
+    time.h = time.s = time.m = 0;
+    TIME t = &time;
+    
+    int choice;
+    while(1){
+        printf("\n1.Read\n2.Display\n3.Update\n4.Add Two Times\nEnter your choice>> ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1: read(t); break;
+            case 2: display(time); break;
+            case 3: update(t); break;
+            case 4: add();break;
+        }
     }
-    if (t->mm>=60){
-        t->mm-=60;
-        t->hh++;
-    }
-    if (t->hh>=24){
-        t->hh-=24;
-    }
-    printf("Time was updated Successfully\n");
-}
-
-void add(TIME* t){
-    TIME temp;
-    printf("Enter Time (HH:MM:SS) to add >>  ");
-    scanf("%d:%d:%d",&temp.hh,&temp.mm,&temp.ss);  
-    t->ss += temp.ss;
-    if(t->ss>=60){
-        t->ss-=60;
-        t->mm++;
-    }
-    t->mm += temp.mm; 
-    if (t->mm>=60){
-        t->mm-=60;
-        t->hh++;
-    }
-    t->hh += temp.hh;  
-    if (t->hh>=24){
-        t->hh-=24;
-    } 
-    printf("Time addition successful\n");
 }
