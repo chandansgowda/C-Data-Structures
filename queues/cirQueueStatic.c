@@ -2,55 +2,53 @@
 #include <stdlib.h>
 
 struct Queue{
-    int *que;
+    int que[5];
     int f,r;
 };
 
 typedef struct Queue * QUEUE;
 
 void insert(QUEUE q){
-    if ((q->f==0&&q->r==4)||(q->f=q->r+1)){
+    if ((q->f==0&&q->r==4)||(q->f==q->r+1)){
         printf("Queue Overflow\n");
         return;
     }
-    q->r = (q->r+1)%5;
     if (q->f==-1) q->f++;
+    q->r = (q->r+1)%5;
     printf("Enter data>> ");
     scanf("%d",&q->que[q->r]);
 }
 
 void delete(QUEUE q){
-    if (q->f==-1&&q->r==-1){
-        printf("Queue Underflow\n");
+    if (q->r==-1&&q->f==-1){
+        printf("Queue Empty\n");
         return;
     }
-    if (q->f==q->r){
-        q->f=q->r=-1;
+    if (q->r==q->f){
+        q->r=-1;
+        q->f=-1;
+        return;
     }
-    else{
-        q->f = (q->f+1)%5;
-    }
+    q->f = (q->f+1)%5;
 }
 
 void print(QUEUE q){
-    if (q->f==-1&&q->r==-1){
-        printf("Queue Underflow\n");
+    if (q->r==-1&&q->f==-1){
+        printf("Queue Empty\n");
         return;
     }
-    for(int i = q->f;i!=q->r;i=(i+1)%5){
-        printf("%d ",q->que[i]);
+    int i;
+    for(i = q->f;i!=q->r;i = (i+1)%5){
+        printf("%d  ",q->que[i]);
     }
-    printf("%d ",q->que[i]);
+    printf("%d",q->que[i]);
 }
 
 void main(){
-    int choice,n;
-    printf("Queue size>> ");
-    scanf("%d",&n);
+    int choice;
     struct Queue Q;
     QUEUE q = &Q;
-    q->que = (int*)malloc(n*sizeof(int));
-    q->f = 0;
+    q->f = -1;
     q ->r = -1;
     while(1){
         printf("\n1.INSERT\n2.DELETE\n3.PRINT\nEnter your choice>> ");
