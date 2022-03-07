@@ -161,6 +161,33 @@ int search(NODE first){
     return -1;
 }
 
+NODE deleteKey(NODE first){
+    if (first==NULL){
+        printf("List Empty\n");
+        return first;
+    }
+    int key;
+    printf("Key>> ");
+    scanf("%d",&key);
+    NODE temp = first;
+    if (temp->data==key){
+        return delAtFront(first);
+    }
+    while(temp->rlink!=NULL && temp->data!=key){
+        temp = temp->rlink;
+    }
+    if (temp->rlink!=NULL&&temp->data==key){
+        temp->llink->rlink = temp->rlink;
+        temp->rlink->llink = temp->llink;
+        return first;
+    }
+    if (temp->rlink==NULL&& temp->data==key){
+        return delAtEnd(first);
+    }
+    printf("Key not found\n");
+    return first;
+}
+
 NODE reverse(NODE first){
     if (first==NULL){
         printf("List Empty\n");
@@ -230,7 +257,7 @@ void main(){
     NODE first=NULL;
     while(1){
         printf("\n----Doubly Linked List Operations----\n");
-        printf("1.Display\n2.Insert at Front\n3.Insert at Position\n4.Insert at End\n5.Search\n6.Delete at Front\n7.Delete at Position\n8.Delete At End\n9.Reverse\n10.Ordered Input\n11.Copylist\n");
+        printf("1.Display\n2.Insert at Front\n3.Insert at Position\n4.Insert at End\n5.Search\n6.Delete at Front\n7.Delete at Position\n8.Delete At End\n9.Delete Key\n10.Reverse\n11.Ordered Input\n12.Copylist\n");
         printf("Select Option>> ");
         scanf("%d",&choice);
         switch(choice){
@@ -242,9 +269,10 @@ void main(){
             case 6: first = delAtFront(first); break;
             case 7: first = delAtPos(first); break;
             case 8: first = delAtEnd(first); break;
-            case 9: first = reverse(first);break;
-            case 10: first = orderedInput(first);break;
-            case 11: copyAndDisplay(first);break;
+            case 9: first = deleteKey(first); break;
+            case 10: first = reverse(first);break;
+            case 11: first = orderedInput(first);break;
+            case 12: copyAndDisplay(first);break;
             
         }     
     }
